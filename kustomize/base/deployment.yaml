@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocdapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-dotnet-app
+  template:
+    metadata:
+      labels:
+        app: hello-dotnet-app
+    spec:
+      containers:
+        - name: hello-dotnet-app
+          imagePullPolicy: Always
+          image: argocdsrips.azurecr.io/hello-dotnet-app:v26
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: acr-secret
