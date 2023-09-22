@@ -1,5 +1,5 @@
 # CICD
-##Comeplete CICD echo system with GithubActions and ArgoCd and Kustomize and Azure Kubernetes
+## Comeplete CICD echo system with GithubActions and ArgoCd and Kustomize and Azure Kubernetes
 Here is the complete repo structure is 
 root
 ├── .github
@@ -37,24 +37,24 @@ root
 │   │   │   ├── service-patch.yaml
 
 
-#GitHub Actions Workflows:
+# GitHub Actions Workflows:
 
-#I wil create different GitHub Actions workflows for different environments:
+# I wil create different GitHub Actions workflows for different environments:
 
-###Dev CI: Automatically deploys code to the Dev environment when a developer pushes changes to the Dev branch.
-###QA CI: Similar to Dev CI but for the QA environment.
-###UAT CI: Same as above, but for the UAT environment.
-###HF CI: Allows manual promotion from Dev, QA, or UAT to the HF environment.
+### Dev CI: Automatically deploys code to the Dev environment when a developer pushes changes to the Dev branch.
+### QA CI: Similar to Dev CI but for the QA environment.
+### UAT CI: Same as above, but for the UAT environment.
+### HF CI: Allows manual promotion from Dev, QA, or UAT to the HF environment.
 
-#ArgoCD Setup:
+# ArgoCD Setup:
 
-###I will configure ArgoCD to manage deployments:
+### I will configure ArgoCD to manage deployments:
 
-###I will Create ArgoCD applications for each environment (Dev, QA, UAT, HF, and Prod).
-###I will setup Set up sync policies to facilitate automatic promotions from UAT to Prod when changes are pushed to the release branch.
-###I Enable manual promotion from Dev, QA, and UAT to HF and Prod environments.
-##Enhanced Features:
+### I will Create ArgoCD applications for each environment (Dev, QA, UAT, HF, and Prod).
+### I will setup Set up sync policies to facilitate automatic promotions from UAT to Prod when changes are pushed to the release branch.
+### I Enable manual promotion from Dev, QA, and UAT to HF and Prod environments.
+## Enhanced Features:
 
-###Scheduled Deployments: We can configure ArgoCD to schedule deployments, such as syncing changes from the Dev branch to the QA environment at specific times.
-###Manual Promotion: Developers can manually trigger promotions from Dev, QA, and UAT to HF and Prod when needed..
-###This setup ensures a robust CI/CD pipeline with efficient code promotion and deployment mechanisms across different environments while maintaining a clear separation between development and production.
+### Scheduled Deployments: We can configure ArgoCD to schedule deployments, such as syncing changes from the Dev branch to the QA environment at specific times.
+### Manual Promotion: Developers can manually trigger promotions from Dev, QA, and UAT to HF and Prod when needed..
+### This setup ensures a robust CI/CD pipeline with efficient code promotion and deployment mechanisms across different environments while maintaining a clear separation between development and production.
