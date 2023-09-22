@@ -37,16 +37,16 @@ root
 │   │   │   ├── service-patch.yaml
 
 
-##GitHub Actions Workflows:
+#GitHub Actions Workflows:
 
-###I wil create different GitHub Actions workflows for different environments:
+#I wil create different GitHub Actions workflows for different environments:
 
 ###Dev CI: Automatically deploys code to the Dev environment when a developer pushes changes to the Dev branch.
 ###QA CI: Similar to Dev CI but for the QA environment.
 ###UAT CI: Same as above, but for the UAT environment.
 ###HF CI: Allows manual promotion from Dev, QA, or UAT to the HF environment.
 
-##ArgoCD Setup:
+#ArgoCD Setup:
 
 ###I will configure ArgoCD to manage deployments:
 
