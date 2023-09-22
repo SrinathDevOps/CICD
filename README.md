@@ -1,5 +1,5 @@
 # CICD
-$${\color{green}Comeplete CICD echo system with GithubActions and ArgoCd and Kustomize and Azure Kubernetes}$$
+$${\color{green}Comeplete  \space  CICD \space  echo \space  system \space  with \space  GithubActions \space  and  \space ArgoCd \space  and \space  Kustomize \space  and \space  Azure \space  Kubernetes}$$
 ## Comeplete CICD echo system with GithubActions and ArgoCd and Kustomize and Azure Kubernetes
 ## Here is the complete repo structure is 
 ## root
