@@ -1,0 +1,81 @@
+name: .NET Build and Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./src/HelloWorldApp
+
+      - name: Build
+        run: dotnet build ./src/HelloWorldApp/HelloWorldapp.sln --configuration Release
+
+      - name: Publish Application
+        run: dotnet publish ./src/HelloWorldApp/HelloWorldapp.sln -c Release --output ./src/HelloWorldApp/myapp
+
+      - name: Debug Logs
+        run: |
+          echo "AZURE_CLIENT_ID: $AZURE_CLIENT_ID"
+          echo "AZURE_CLIENT_SECRET: $AZURE_CLIENT_SECRET"
+          echo "AZURE_TENANT_ID: $AZURE_TENANT_ID"
+
+      - name: Authenticate with Azure Key Vault
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        run: |
+          az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+
+      - name: Retrieve ACR Credentials from Azure Key Vault
+        run: |
+          ACR_USERNAME=$(az keyvault secret show --name ACR_USERNAME --vault-name <Your-KeyVault-Name> --query 'value' -o tsv)
+          ACR_PASSWORD=$(az keyvault secret show --name ACR_PASSWORD --vault-name <Your-KeyVault-Name> --query 'value' -o tsv)
+
+      - name: Build and Push Docker Image
+        env:
+          ACR_USERNAME: $ACR_USERNAME
+          ACR_PASSWORD: $ACR_PASSWORD
+        run: |
+          # Log in to Azure Container Registry
+          docker login <Your-ACR-Name>.azurecr.io -u "$ACR_USERNAME" -p "$ACR_PASSWORD"
+
+          # Build and push the Docker image
+          docker build --file Dockerfile --tag <Your-ACR-Name>.azurecr.io/hello-dotnet-app:v26 .
+          docker push <Your-ACR-Name>.azurecr.io/hello-dotnet-app:v26
+
+      - name: Update Kubernetes Deployment
+        run: |
+          echo "Before:"
+          cat argocd-manifests/hello-dotnet-app-deployment.yaml
+          sed -i 's|image: <Your-ACR-Name>.azurecr.io/hello-dotnet-app:.*|image: <Your-ACR-Name>.azurecr.io/hello-dotnet-app:v26|g' argocd-manifests/hello-dotnet-app-deployment.yaml
+          sed -i 's|replicas: .*|replicas: 3|g' argocd-manifests/hello-dotnet-app-deployment.yaml
+          echo "After:"
+          cat argocd-manifests/hello-dotnet-app-deployment.yaml
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "srinath.kaithoju@gmail.com"
+          git config --local user.name "SrinathDevOps"
+          git add .
+          git commit -m "Update Kubernetes deployment and replicas"
+          git push origin main
+
+      - name: Debug Info
+        run: |
+          pwd
+          ls -R
