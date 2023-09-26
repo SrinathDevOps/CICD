@@ -43,8 +43,8 @@ jobs:
 
       - name: Retrieve ACR Credentials from Azure Key Vault
         run: |
-          ACR_USERNAME=$(az keyvault secret show --name ACR_USERNAME --vault-name <Your-KeyVault-Name> --query 'value' -o tsv)
-          ACR_PASSWORD=$(az keyvault secret show --name ACR_PASSWORD --vault-name <Your-KeyVault-Name> --query 'value' -o tsv)
+          ACR_USERNAME=$(az keyvault secret show --name ACR_USERNAME --vault-name <SrinathVault> --query 'value' -o tsv)
+          ACR_PASSWORD=$(az keyvault secret show --name ACR_PASSWORD --vault-name <SrinathVault> --query 'value' -o tsv)
 
       - name: Build and Push Docker Image
         env:
